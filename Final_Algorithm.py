@@ -11,6 +11,7 @@ Some limitations with the sensor
 
 '''
 from typing import Any
+from csv import reader
 
 import time
 import matplotlib.pyplot as plt
@@ -21,13 +22,12 @@ from PIL import Image
 import matplotlib.gridspec as gridspec
 
 import os, sys
-
 sys.path.append(os.path.join("C:\\Users\\k64067997\\AppData\\Local\\Programs\\Python\\Python38-32\\Lib\\site-packages\\yoctopuce"))
 from yocto_api import *
 from yocto_lightsensor import *
 
 
-ImageAddress = 'C:\\Users\\k64067997\\Desktop\\Job Study\\Python Learning\\beauty.png'
+ImageAddress = 'beauty.png'
 ImageItself = Image.open(ImageAddress)
 
 xs = []
@@ -139,18 +139,21 @@ def animate(i):
         ax4.clear()
     
 
-
-print("ONE TIME CALIBRATION")
-Choice = input("Set ambient light.Switch OFF all light. Enter Y/N to proceed/skip")
-if(Choice == 'y' or Choice == 'Y'):
-    offset = fetch_sensor_data()
-else:
-    offset = 0
-print("offset value is:-",offset)
-
-no_of_lights1 = input("Switch on the light, Please enter the number of lights present")
-single_bulb_Lux = fetch_sensor_data() / int(no_of_lights1)
-print("single_bulb_Lux is:-", single_bulb_Lux)
+###################################################################
+print("AUTO CALIBRATION")
+Site_Type = input("Enter the site type:-")
+with open('Calibration.csv', 'r') as read_obj:
+    csv_reader = reader(read_obj)
+    for row in csv_reader:
+        if (row[0] == Site_Type):
+            Total_Lux = float(row[1])
+            no_of_lights1 = float(row[2])
+            offset = float(row[3])
+            single_bulb_Lux = Total_Lux / no_of_lights1
+            print("Total Lux value is:-",Total_Lux)
+            print("Number of Lamps Present:-",no_of_lights1)
+            print("Offset value of the site:-",offset)
+            print("Single lamp lux is:",single_bulb_Lux)
 time.sleep(1)
              
 # plotting
