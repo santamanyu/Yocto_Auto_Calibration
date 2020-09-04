@@ -1,0 +1,5 @@
+Site,Tlux,Nlamps,Offset,Pattern
+1,400,4,10,Square
+2,300,3,10,Triangle
+3,200,2,10,Line
+4,100,1,10,Dot
