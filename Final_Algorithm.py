@@ -140,22 +140,25 @@ def animate(i):
     
 
 ###################################################################
-print("AUTO CALIBRATION")
-Site_Type = input("Enter the site type:-")
-with open('Calibration.csv', 'r') as read_obj:
-    csv_reader = reader(read_obj)
-    for row in csv_reader:
-        if (row[0] == Site_Type):
-            Total_Lux = float(row[1])
-            no_of_lights1 = float(row[2])
-            offset = float(row[3])
-            single_bulb_Lux = Total_Lux / no_of_lights1
-            print("Total Lux value is:-",Total_Lux)
-            print("Number of Lamps Present:-",no_of_lights1)
-            print("Offset value of the site:-",offset)
-            print("Single lamp lux is:",single_bulb_Lux)
-time.sleep(1)
-             
+def read_calibration(i):
+    with open('Calibration.csv', 'r') as read_obj:
+        csv_reader = reader(read_obj)
+        for row in csv_reader:
+            if (row[0] == Site_Type):
+                return row;
+                time.sleep(1)
+
+print("AUTO CALIBRATING")
+row = read_calibration(input("Enter the site type:-"))
+Total_Lux = float(row[1])
+no_of_lights1 = float(row[2])
+offset = float(row[3])
+single_bulb_Lux = Total_Lux / no_of_lights1
+print("Total Lux value is:-", Total_Lux)
+print("Number of Lamps Present:-", no_of_lights1)
+print("Offset value of the site:-", offset)
+print("Single lamp lux is:", single_bulb_Lux)
+
 # plotting
 fig = plt.figure(tight_layout=True)
 gs = gridspec.GridSpec(4,2,figure=fig)
